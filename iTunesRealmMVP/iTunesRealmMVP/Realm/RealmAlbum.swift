@@ -21,11 +21,3 @@ final class RealmAlbum: Object {
         return "artistId"
     }
 }
-
-class SearchTerm: Object {
-    @objc dynamic var term: String = ""
-
-    override static func primaryKey() -> String? {
-        return "term"
-    }
-}

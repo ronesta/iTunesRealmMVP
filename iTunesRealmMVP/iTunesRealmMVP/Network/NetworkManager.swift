@@ -7,12 +7,17 @@
 
 import Foundation
 
-final class NetworkManager {
-    static let shared = NetworkManager()
-    private init() {}
-    var counter = 1
+final class NetworkManager: NetworkManagerProtocol {
+    var dataCounter = 1
+    var imageCounter = 1
 
-    func fetchAlbums(albumName: String, completion: @escaping ([Album]?, Error?) -> Void) {
+    private var storageManager: StorageManagerProtocol?
+
+    init(storageManager: StorageManagerProtocol) {
+        self.storageManager = storageManager
+    }
+
+    func loadAlbums(albumName: String, completion: @escaping ([Album]?, Error?) -> Void) {
         let baseURL = "https://itunes.apple.com/search"
         let term = albumName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let urlString = "\(baseURL)?term=\(term)&entity=album&attribute=albumTerm"
@@ -44,8 +49,8 @@ final class NetworkManager {
                 let albums = try JSONDecoder().decode(PostAlbums.self, from: data).results
                 DispatchQueue.main.async {
                     completion(albums, nil)
-                    print("Load data", self.counter)
-                    self.counter += 1
+                    print("Load data", self.dataCounter)
+                    self.dataCounter += 1
                 }
             } catch {
                 print("Decoding error: \(error.localizedDescription)")
@@ -56,7 +61,7 @@ final class NetworkManager {
         }.resume()
     }
 
-    func fetchImage(from urlString: String, completion: @escaping (Data?, Error?) -> Void) {
+    func loadImage(from urlString: String, completion: @escaping (Data?, Error?) -> Void) {
         guard let url = URL(string: urlString) else {
             print("Invalid URL for image")
             completion(nil, NetworkError.invalidURL)
@@ -81,6 +86,8 @@ final class NetworkManager {
             }
             DispatchQueue.main.async {
                 completion(data, nil)
+                print("Load image", self.imageCounter)
+                self.imageCounter += 1
             }
         }.resume()
     }
