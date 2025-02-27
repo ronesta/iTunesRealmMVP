@@ -8,18 +8,20 @@
 import Foundation
 import UIKit
 
-struct AlbumAssembly: AlbumAssemblyProtocol {
+struct AlbumAssembly {
     func build(with album: RealmAlbum) -> UIViewController {
         let storageManager = StorageManager()
-        let networkManager = NetworkManager(storageManager: storageManager)
+        let networkManager = NetworkManager()
 
-        let presenter = AlbumPresenter(networkManager: networkManager,
+        let albumViewController = AlbumViewController()
+
+        let presenter = AlbumPresenter(view: albumViewController,
+                                       networkManager: networkManager,
                                        storageManager: storageManager,
                                        album: album
         )
-        let albumViewController = AlbumViewController(presenter: presenter)
 
-        presenter.view = albumViewController
+        albumViewController.presenter = presenter
 
         return albumViewController
     }

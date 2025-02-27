@@ -9,5 +9,6 @@ import Foundation
 
 protocol SearchViewProtocol: AnyObject {
     func updateAlbums(_ albums: [RealmAlbum])
+
     func showError(_ message: String)
 }

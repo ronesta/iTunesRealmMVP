@@ -8,14 +8,8 @@
 import Foundation
 
 final class NetworkManager: NetworkManagerProtocol {
-    var dataCounter = 1
-    var imageCounter = 1
-
-    private var storageManager: StorageManagerProtocol?
-
-    init(storageManager: StorageManagerProtocol) {
-        self.storageManager = storageManager
-    }
+    private var dataCounter = 1
+    private var imageCounter = 1
 
     func loadAlbums(albumName: String, completion: @escaping ([Album]?, Error?) -> Void) {
         let baseURL = "https://itunes.apple.com/search"

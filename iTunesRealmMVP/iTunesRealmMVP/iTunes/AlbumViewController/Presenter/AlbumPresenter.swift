@@ -15,13 +15,19 @@ class AlbumPresenter: AlbumPresenterProtocol {
 
     private let album: RealmAlbum
 
-    init(networkManager: NetworkManagerProtocol,
+    init(view: AlbumViewProtocol?,
+         networkManager: NetworkManagerProtocol,
          storageManager: StorageManagerProtocol,
          album: RealmAlbum
     ) {
+        self.view = view
         self.networkManager = networkManager
         self.storageManager = storageManager
         self.album = album
+    }
+
+    func viewDidLoad() {
+        loadAlbumDetails()
     }
 
     func loadAlbumDetails() {

@@ -24,7 +24,13 @@ final class SearchPresenter: SearchPresenterProtocol {
         self.storageManager = storageManager
     }
 
+    func viewDidLoad(with term: String) {
+        searchAlbums(with: term)
+    }
+
     func searchAlbums(with term: String) {
+        storageManager.saveSearchTerm(term)
+
         albums = storageManager.fetchAlbums(for: term)
 
         guard albums.isEmpty else {
@@ -77,5 +83,9 @@ final class SearchPresenter: SearchPresenterProtocol {
                 }
             }
         }
+    }
+
+    func fetchImageData(for imageId: Int) -> Data? {
+        storageManager.fetchImageData(forImageId: imageId)
     }
 }
