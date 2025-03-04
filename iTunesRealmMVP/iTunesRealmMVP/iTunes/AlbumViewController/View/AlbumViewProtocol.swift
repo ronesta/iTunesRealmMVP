@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import UIKit.UIImage
 
 protocol AlbumViewProtocol: AnyObject {
     func displayAlbumDetails(album: RealmAlbum, image: UIImage)

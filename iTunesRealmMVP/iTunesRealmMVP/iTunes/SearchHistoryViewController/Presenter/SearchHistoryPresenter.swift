@@ -9,12 +9,10 @@ import Foundation
 
 final class SearchHistoryPresenter: SearchHistoryPresenterProtocol {
     weak var view: SearchHistoryViewProtocol?
+
     private let storageManager: StorageManagerProtocol
 
-    init(view: SearchHistoryViewProtocol?,
-         storageManager: StorageManagerProtocol
-    ) {
-        self.view = view
+    init(storageManager: StorageManagerProtocol) {
         self.storageManager = storageManager
     }
 
@@ -22,7 +20,7 @@ final class SearchHistoryPresenter: SearchHistoryPresenterProtocol {
         loadSearchHistory()
     }
 
-    func loadSearchHistory() {
+    private func loadSearchHistory() {
         let history = storageManager.getSearchHistory()
         view?.updateSearchHistory(history)
     }

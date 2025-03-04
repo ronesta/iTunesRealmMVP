@@ -11,15 +11,15 @@ import UIKit
 struct SearchHistoryAssembly {
     func build() -> UIViewController {
         let storageManager = StorageManager()
-        let viewController = SearchHistoryViewController()
 
-        let presenter = SearchHistoryPresenter(view: viewController,
-                                               storageManager: storageManager
-        )
+        let presenter = SearchHistoryPresenter(storageManager: storageManager)
         let tableViewDataSource = SearchHistoryTableViewDataSource()
 
-        viewController.presenter = presenter
-        viewController.tableViewDataSource = tableViewDataSource
+        let viewController = SearchHistoryViewController(presenter: presenter,
+                                                         tableViewDataSource: tableViewDataSource
+        )
+
+        presenter.view = viewController
 
         configureOnSelect(for: viewController, with: tableViewDataSource)
 
@@ -45,8 +45,7 @@ struct SearchHistoryAssembly {
                 return
             }
 
-            rootViewController.searchBar.isHidden = true
-            rootViewController.presenter?.viewDidLoad(with: selectedTerm)
+            rootViewController.performSearch(with: selectedTerm)
 
             viewController?.navigationController?.pushViewController(rootViewController, animated: true)
         }

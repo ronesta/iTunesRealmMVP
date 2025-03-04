@@ -8,17 +8,28 @@
 import UIKit
 
 final class SearchHistoryViewController: UIViewController {
-    var onSelect: ((IndexPath) -> Void)?
-
-    var presenter: SearchHistoryPresenterProtocol?
-    var tableViewDataSource: SearchHistoryDataSourceProtocol?
-    // Cannot be injected with initializer, because presenter also needs CharacterViewController for his initializer
-
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.separatorStyle = .singleLine
         return tableView
     }()
+
+    var onSelect: ((IndexPath) -> Void)?
+
+    private let presenter: SearchHistoryPresenterProtocol
+    private let tableViewDataSource: SearchHistoryDataSourceProtocol
+
+    init(presenter: SearchHistoryPresenterProtocol,
+         tableViewDataSource: SearchHistoryDataSourceProtocol
+    ) {
+        self.presenter = presenter
+        self.tableViewDataSource = tableViewDataSource
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +39,7 @@ final class SearchHistoryViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad()
     }
 
     private func setupNavigationBar() {
@@ -52,7 +63,7 @@ final class SearchHistoryViewController: UIViewController {
 // MARK: - SearchHistoryViewProtocol
 extension SearchHistoryViewController: SearchHistoryViewProtocol {
     func updateSearchHistory(_ history: [String]) {
-        tableViewDataSource?.searchHistory = history
+        tableViewDataSource.searchHistory = history
         self.tableView.reloadData()
     }
 }

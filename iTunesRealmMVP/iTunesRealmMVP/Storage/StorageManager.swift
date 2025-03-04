@@ -18,13 +18,14 @@ final class StorageManager: StorageManagerProtocol {
     }
 
     // swiftlint:disable:next function_parameter_count
-    public func createOrUpdateAlbum(artistId: Int,
-                                    artistName: String,
-                                    collectionName: String,
-                                    artworkUrl100: String,
-                                    collectionPrice: Double,
-                                    imageData: Data?,
-                                    term: String) {
+    private func createOrUpdateAlbum(artistId: Int,
+                                     artistName: String,
+                                     collectionName: String,
+                                     artworkUrl100: String,
+                                     collectionPrice: Double,
+                                     imageData: Data?,
+                                     term: String
+    ) {
         let album = RealmAlbum()
         album.artistId = artistId
         album.artistName = artistName
@@ -83,27 +84,5 @@ final class StorageManager: StorageManagerProtocol {
     func getSearchHistory() -> [String] {
         let results = realm.objects(SearchTerm.self)
         return results.map { $0.term }
-    }
-}
-
-extension StorageManager {
-    func clearAlbums() {
-        do {
-            try realm.write {
-                realm.delete(realm.objects(RealmAlbum.self))
-            }
-        } catch {
-            print("Failed to clear albums: \(error)")
-        }
-    }
-
-    func clearHistory() {
-        do {
-            try realm.write {
-                realm.delete(realm.objects(SearchTerm.self))
-            }
-        } catch {
-            print("Failed to clear history: \(error)")
-        }
     }
 }

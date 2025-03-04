@@ -13,15 +13,14 @@ struct AlbumAssembly {
         let storageManager = StorageManager()
         let networkManager = NetworkManager()
 
-        let albumViewController = AlbumViewController()
-
-        let presenter = AlbumPresenter(view: albumViewController,
-                                       networkManager: networkManager,
+        let presenter = AlbumPresenter(networkManager: networkManager,
                                        storageManager: storageManager,
                                        album: album
         )
 
-        albumViewController.presenter = presenter
+        let albumViewController = AlbumViewController(presenter: presenter)
+
+        presenter.view = albumViewController
 
         return albumViewController
     }

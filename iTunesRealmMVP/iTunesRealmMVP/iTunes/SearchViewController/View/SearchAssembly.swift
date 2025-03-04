@@ -12,16 +12,18 @@ struct SearchAssembly {
     func build() -> UIViewController {
         let storageManager = StorageManager()
         let networkManager = NetworkManager()
-        let viewController = SearchViewController()
+        let imageDataFetcher = ImageDataFetcher(storageManager: storageManager)
 
-        let presenter = SearchPresenter(view: viewController,
-                                        networkManager: networkManager,
+        let presenter = SearchPresenter(networkManager: networkManager,
                                         storageManager: storageManager
         )
-        let collectionViewDataSource = SearchCollectionViewDataSource(presenter: presenter)
 
-        viewController.presenter = presenter
-        viewController.collectionViewDataSource = collectionViewDataSource
+        let collectionViewDataSource = SearchCollectionViewDataSource(imageDataFetcher: imageDataFetcher)
+
+        let viewController = SearchViewController(presenter: presenter,
+                                                  collectionViewDataSource: collectionViewDataSource
+        )
+
         presenter.view = viewController
 
         configureOnSelect(for: viewController, with: collectionViewDataSource)

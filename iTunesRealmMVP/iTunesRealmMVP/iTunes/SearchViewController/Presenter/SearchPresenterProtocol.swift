@@ -9,7 +9,5 @@ import Foundation
 import UIKit
 
 protocol SearchPresenterProtocol: AnyObject {
-    func viewDidLoad(with term: String)
-
-    func fetchImageData(for imageId: Int) -> Data?
+    func searchButtonClicked(with term: String)
 }

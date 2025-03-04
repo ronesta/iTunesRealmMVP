@@ -10,8 +10,6 @@ import UIKit
 import SnapKit
 
 final class AlbumViewController: UIViewController {
-    var presenter: AlbumPresenterProtocol?
-
     private let albumImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 15
@@ -42,10 +40,21 @@ final class AlbumViewController: UIViewController {
         return label
     }()
 
+    private let presenter: AlbumPresenterProtocol
+
+    init(presenter: AlbumPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad()
     }
 
     private func setupViews() {

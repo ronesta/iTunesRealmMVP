@@ -10,21 +10,20 @@ import UIKit
 
 final class SearchPresenter: SearchPresenterProtocol {
     weak var view: SearchViewProtocol?
+
     private let networkManager: NetworkManagerProtocol
     private let storageManager: StorageManagerProtocol
 
     private var albums = [RealmAlbum]()
 
-    init(view: SearchViewProtocol? = nil,
-         networkManager: NetworkManagerProtocol,
+    init(networkManager: NetworkManagerProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.view = view
         self.networkManager = networkManager
         self.storageManager = storageManager
     }
 
-    func viewDidLoad(with term: String) {
+    func searchButtonClicked(with term: String) {
         searchAlbums(with: term)
     }
 
@@ -83,9 +82,5 @@ final class SearchPresenter: SearchPresenterProtocol {
                 }
             }
         }
-    }
-
-    func fetchImageData(for imageId: Int) -> Data? {
-        storageManager.fetchImageData(forImageId: imageId)
     }
 }
