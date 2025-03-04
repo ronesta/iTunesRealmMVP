@@ -99,7 +99,7 @@ extension SearchViewController: UICollectionViewDelegate {
 extension SearchViewController: SearchViewInput {
     func performSearch(with term: String) {
         searchBar.isHidden = true
-        presenter.searchButtonClicked(with: term)
+        presenter.searchFromHistory(with: term)
     }
 }
 
@@ -107,18 +107,10 @@ extension SearchViewController: SearchViewInput {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {
-            return
-        }
-
-        presenter.searchButtonClicked(with: searchTerm)
+        presenter.searchButtonClicked(with: searchBar.text)
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {
-            return
-        }
-
-        presenter.didTypeSearch(searchTerm)
+        presenter.didTypeSearch(searchText)
     }
 }

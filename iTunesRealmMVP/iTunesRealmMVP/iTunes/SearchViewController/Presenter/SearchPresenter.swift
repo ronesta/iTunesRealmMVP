@@ -28,15 +28,27 @@ final class SearchPresenter: SearchPresenterProtocol {
     }
 
     func didTypeSearch(_ searchQuery: String) {
+        guard !searchQuery.isEmpty else {
+            return
+        }
+
         searchAlbums(with: searchQuery)
     }
 
-    func searchButtonClicked(with term: String) {
+    func searchButtonClicked(with term: String?) {
+        guard let term, !term.isEmpty else {
+            return
+        }
+
         saveSearchTerm(term)
         searchAlbums(with: term)
     }
 
-    func searchAlbums(with term: String) {
+    func searchFromHistory(with term: String) {
+        searchAlbums(with: term)
+    }
+
+    private func searchAlbums(with term: String) {
         albums = storageManager.fetchAlbums(for: term)
 
         guard albums.isEmpty else {
