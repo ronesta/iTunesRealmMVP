@@ -113,4 +113,12 @@ extension SearchViewController: UISearchBarDelegate {
 
         presenter.searchButtonClicked(with: searchTerm)
     }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {
+            return
+        }
+
+        presenter.didTypeSearch(searchTerm)
+    }
 }
