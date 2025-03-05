@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkManager: NetworkManagerProtocol {
+final class ITunesManager: ITunesManagerProtocol {
     private var dataCounter = 1
     private var imageCounter = 1
 

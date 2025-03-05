@@ -11,10 +11,10 @@ import UIKit
 struct SearchAssembly {
     func build() -> UIViewController {
         let storageManager = StorageManager()
-        let networkManager = NetworkManager()
+        let iTunesManager = ITunesManager()
         let imageDataFetcher = ImageDataFetcher(storageManager: storageManager)
 
-        let presenter = SearchPresenter(networkManager: networkManager,
+        let presenter = SearchPresenter(iTunesManager: iTunesManager,
                                         storageManager: storageManager
         )
 

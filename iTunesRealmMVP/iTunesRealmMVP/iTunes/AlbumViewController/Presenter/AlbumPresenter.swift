@@ -11,16 +11,13 @@ import UIKit.UIImage
 class AlbumPresenter: AlbumPresenterProtocol {
     weak var view: AlbumViewProtocol?
 
-    private let networkManager: NetworkManagerProtocol
     private let storageManager: StorageManagerProtocol
 
     private let album: RealmAlbum
 
-    init(networkManager: NetworkManagerProtocol,
-         storageManager: StorageManagerProtocol,
+    init(storageManager: StorageManagerProtocol,
          album: RealmAlbum
     ) {
-        self.networkManager = networkManager
         self.storageManager = storageManager
         self.album = album
     }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol NetworkManagerProtocol: AnyObject {
+protocol ITunesManagerProtocol: AnyObject {
     func loadAlbums(albumName: String, completion: @escaping ([Album]?, Error?) -> Void)
 
     func loadImage(from urlString: String, completion: @escaping (Data?, Error?) -> Void)

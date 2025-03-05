@@ -11,15 +11,15 @@ import UIKit
 final class SearchPresenter: SearchPresenterProtocol {
     weak var view: SearchViewProtocol?
 
-    private let networkManager: NetworkManagerProtocol
+    private let iTunesManager: ITunesManagerProtocol
     private let storageManager: StorageManagerProtocol
 
     private var albums = [RealmAlbum]()
 
-    init(networkManager: NetworkManagerProtocol,
+    init(iTunesManager: ITunesManagerProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.networkManager = networkManager
+        self.iTunesManager = iTunesManager
         self.storageManager = storageManager
     }
 
@@ -56,7 +56,7 @@ final class SearchPresenter: SearchPresenterProtocol {
             return
         }
 
-        networkManager.loadAlbums(albumName: term) { [weak self] result, error  in
+        iTunesManager.loadAlbums(albumName: term) { [weak self] result, error  in
             if let error {
                 print("Error getting albums: \(error)")
                 return
@@ -71,7 +71,7 @@ final class SearchPresenter: SearchPresenterProtocol {
 
             result.forEach { res in
                 group.enter()
-                self?.networkManager.loadImage(from: res.artworkUrl100) { data, error in
+                self?.iTunesManager.loadImage(from: res.artworkUrl100) { data, error in
                     if let error {
                         print("Failed to load image: \(error)")
                         return
