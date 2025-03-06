@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol SearchViewInput {
+protocol SearchViewInputProtocol {
     func performSearch(with term: String)
 }

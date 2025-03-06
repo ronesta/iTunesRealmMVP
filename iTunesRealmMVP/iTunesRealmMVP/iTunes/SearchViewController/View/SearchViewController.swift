@@ -41,7 +41,9 @@ final class SearchViewController: UIViewController {
     private let presenter: SearchPresenterProtocol
     private let collectionViewDataSource: SearchDataSourceProtocol
 
-    init(presenter: SearchPresenterProtocol, collectionViewDataSource: SearchDataSourceProtocol) {
+    init(presenter: SearchPresenterProtocol,
+         collectionViewDataSource: SearchDataSourceProtocol
+    ) {
         self.presenter = presenter
         self.collectionViewDataSource = collectionViewDataSource
         super.init(nibName: nil, bundle: nil)
@@ -95,8 +97,8 @@ extension SearchViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - SearchViewInput
-extension SearchViewController: SearchViewInput {
+// MARK: - SearchViewInputProtocol
+extension SearchViewController: SearchViewInputProtocol {
     func performSearch(with term: String) {
         searchBar.isHidden = true
         presenter.searchFromHistory(with: term)
