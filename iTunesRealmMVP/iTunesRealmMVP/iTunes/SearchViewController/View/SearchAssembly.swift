@@ -26,9 +26,11 @@ struct SearchAssembly {
 
         presenter.view = viewController
 
-        configureOnSelect(for: viewController, with: collectionViewDataSource)
-
         let navigationController = UINavigationController(rootViewController: viewController)
+        let coordinator = SearchCoordinator(viewController: viewController)
+
+        configureOnSelect(for: viewController, with: collectionViewDataSource, coordinator: coordinator)
+
         let tabBarItem = UITabBarItem(title: "Search",
                                       image: UIImage(systemName: "magnifyingglass"),
                                       tag: 0)
@@ -39,15 +41,13 @@ struct SearchAssembly {
     }
 
     private func configureOnSelect(for viewController: SearchViewController,
-                                   with collectionViewDataSource: SearchCollectionViewDataSource
+                                   with collectionViewDataSource: SearchCollectionViewDataSource,
+                                   coordinator: SearchCoordinatorProtocol
     ) {
-        viewController.onSelect = { [weak viewController] indexPath in
+        viewController.onSelect = { indexPath in
             let album = collectionViewDataSource.albums[indexPath.item]
-            let albumAssembly = AlbumAssembly()
 
-            let albumViewController = albumAssembly.build(with: album)
-
-            viewController?.navigationController?.pushViewController(albumViewController, animated: true)
+            coordinator.didSelect(album: album)
         }
     }
 }

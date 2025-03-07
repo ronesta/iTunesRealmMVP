@@ -21,9 +21,11 @@ struct SearchHistoryAssembly {
 
         presenter.view = viewController
 
-        configureOnSelect(for: viewController, with: tableViewDataSource)
-
         let navigationController = UINavigationController(rootViewController: viewController)
+        let coordinator = SearchHistoryCoordinator(navigationController: navigationController)
+
+        configureOnSelect(for: viewController, with: tableViewDataSource, coordinator: coordinator)
+
         let tabBarItem = UITabBarItem(title: "History",
                                       image: UIImage(systemName: "clock"),
                                       tag: 1)
@@ -34,20 +36,12 @@ struct SearchHistoryAssembly {
     }
 
     private func configureOnSelect(for viewController: SearchHistoryViewController,
-                                   with tableViewDataSource: SearchHistoryTableViewDataSource
+                                   with tableViewDataSource: SearchHistoryTableViewDataSource,
+                                   coordinator: SearchHistoryCoordinatorProtocol
     ) {
-        viewController.onSelect = { [weak viewController] indexPath in
+        viewController.onSelect = { indexPath in
             let selectedTerm = tableViewDataSource.searchHistory[indexPath.row]
-            let searchAssembly = SearchAssembly()
-
-            guard let searchViewController = searchAssembly.build() as? UINavigationController,
-                  let rootViewController = searchViewController.viewControllers.first as? SearchViewController else {
-                return
-            }
-
-            rootViewController.performSearch(with: selectedTerm)
-
-            viewController?.navigationController?.pushViewController(rootViewController, animated: true)
+            coordinator.didSelectSearchQuery(with: selectedTerm)
         }
     }
 }
